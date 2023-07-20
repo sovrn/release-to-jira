@@ -23,6 +23,8 @@ runs:
     - uses: actions/checkout@v3
     - name: Create Github release
       shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         gh api \
           --method POST /repos/${{ github.repository }}/releases \
