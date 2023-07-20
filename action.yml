@@ -1,0 +1,35 @@
+name: Release to JIRA
+description: A GitHub action to automatically create releases on JIRA.
+author: ulasozguler
+branding:
+  icon: 'edit'
+  color: 'blue'
+inputs:
+  jira_server:
+    description: JIRA Server
+    required: true
+  jira_user:
+    description: JIRA user email
+    required: true
+  jira_token:
+    description: JIRA user token
+    required: true
+  jira_project:
+    description: JIRA Project
+    required: true
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+    # - name: test
+    #   run: ls -lah && pwd
+    # - name: Create Github release
+    #   run: |
+    #     gh api \
+    #       --method POST /repos/${{ github.repository }}/releases \
+    #         -f tag_name='${{ github.ref_name }}' \
+    #         -f name='${{ github.ref_name }}' \
+    #         -F generate_release_notes=true \
+    #       --jq .body > notes.md
+    - name: Update JIRA
+      run: python ./src/main.py

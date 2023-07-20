@@ -1,0 +1,4 @@
+[flake8]
+min_python_version = 3.8
+max-line-length = 120
+
