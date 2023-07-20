@@ -6,30 +6,30 @@ branding:
   color: 'blue'
 inputs:
   jira_server:
-    description: JIRA Server
+    description: JIRA server
+    required: true
+  jira_project:
+    description: JIRA project
     required: true
   jira_user:
-    description: JIRA user email
+    description: JIRA user
     required: true
   jira_token:
     description: JIRA user token
-    required: true
-  jira_project:
-    description: JIRA Project
     required: true
 runs:
   using: composite
   steps:
     - uses: actions/checkout@v3
-    # - name: test
-    #   run: ls -lah && pwd
-    # - name: Create Github release
-    #   run: |
-    #     gh api \
-    #       --method POST /repos/${{ github.repository }}/releases \
-    #         -f tag_name='${{ github.ref_name }}' \
-    #         -f name='${{ github.ref_name }}' \
-    #         -F generate_release_notes=true \
-    #       --jq .body > notes.md
+    - name: Create Github release
+      shell: bash
+      run: |
+        gh api \
+          --method POST /repos/${{ github.repository }}/releases \
+            -f tag_name='${{ github.ref_name }}' \
+            -f name='${{ github.ref_name }}' \
+            -F generate_release_notes=true \
+          --jq .body > notes.md
     - name: Update JIRA
+      shell: bash
       run: python ./src/main.py
