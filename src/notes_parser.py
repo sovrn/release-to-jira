@@ -14,15 +14,18 @@ def _parse_changelist(content):
     items = []
     for line in content.split("\n"):
         line = line[2:]
-        pr_title, line = line.split(" by @", 1)
-        author, pr_link = line.split(" in ", 1)
-        items.append(
-            {
-                "title": pr_title,
-                "author": author,
-                "link": pr_link,
-            }
-        )
+        try:
+            pr_title, line = line.split(" by @", 1)
+            author, pr_link = line.split(" in ", 1)
+            items.append(
+                {
+                    "title": pr_title,
+                    "author": author,
+                    "link": pr_link,
+                }
+            )
+        except Exception as ex:
+            print('skipped', line, ex)
     return items
 
 
