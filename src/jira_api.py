@@ -1,5 +1,4 @@
 import os
-import json
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -38,7 +37,7 @@ def get_or_create_release(release_name):
         fp = open("notes.md", "r")
         content = fp.read()
         fp.close()
-        
+
         return post(
             "version",
             {"name": release_name, "projectId": get_project_id(), "description": content},
