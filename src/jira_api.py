@@ -1,4 +1,5 @@
 import os
+import json
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -34,9 +35,13 @@ def get_project_id():
 def get_or_create_release(release_name):
     result = get("version", {"query": release_name})
     if result["total"] == 0:
+        fp = open("notes.md", "r")
+        content = fp.read()
+        fp.close()
+        
         return post(
             "version",
-            {"name": release_name, "projectId": get_project_id()},
+            {"name": release_name, "projectId": get_project_id(), "description": content},
         ).json()
     elif result["total"] > 1:
         raise Exception("Found multiple releases with the same name.")
